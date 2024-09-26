@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.moving-gradient {
+  background: linear-gradient(270deg, #a7bffc, #c084fc, #f9a8d4);
+  background-size: 600% 600%;
+  animation: gradient-move 15s ease infinite;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}

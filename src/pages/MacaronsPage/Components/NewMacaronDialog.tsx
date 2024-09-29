@@ -15,13 +15,15 @@ interface NewMacaronDialogProps {
 }
 
 const NewMacaronDialog: React.FC<NewMacaronDialogProps> = ({ onClose, addNewMacaron, selectedMacacon }) => {
+  const title = selectedMacacon ? "Update macaron" : "Create macaron";
+  const description = selectedMacacon ? "Update a new Taste of you macaron." : "Create a new Taste of you macaron.";
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Macaron</DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
-            Create a new Taste of you macaron.
+            {description}
           </DialogDescription>
         </DialogHeader>
         <MacaronForm initialData={selectedMacacon} addNewMacaron={addNewMacaron} onClose={onClose}/>

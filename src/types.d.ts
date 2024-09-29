@@ -16,13 +16,23 @@ type Macaron = {
     price : number, 
     advertismentPrice : number,
     isXl : boolean,
-    createdAt : string
-    ingredientsIds : string[]
-    pictureLink : string
-    updatedAt : string
+    createdAt : string,
+    ingredientsIds : string[],
+    pictureLink : string,
+    updatedAt : string,
+    isCurrentlyUnavailable : boolean
 }
 
 type Ingredient = {
     id : string,
-    name : string
+    name : string,
+    allergen : Allergen,
+    containsGluten : boolean,
+    allergenId : string
+}
+
+type Allergen = {
+    id : string,
+    name : string,
+    link : string
 }

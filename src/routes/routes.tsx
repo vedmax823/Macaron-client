@@ -6,7 +6,7 @@ import PrivateRoutes from "../components/PrivateRoutes";
 import { ALLERGENS_ROUTE, INGREDIENTS_ROUTE, MACARONS_ROUTE, MAIN_ROUTE } from "./routesConsts";
 
 import AllergenPage from "@/pages/AllergenPage";
-import IngredientsPage from "@/pages/IngredientsPage";
+import IngredientsPage from "@/pages/IngredientPage/IngredientsPage";
 import MacaronsPage from "@/pages/MacaronsPage/MacaronsPage";
 
 const privateRoutes: RouteObject[] = [

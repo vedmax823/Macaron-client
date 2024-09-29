@@ -15,63 +15,32 @@ import {
 } from "@/components/UI/table";
 import { getMacarons } from "@/http/macarons";
 
-import { useEffect, useState } from "react";
 import MyTableRaw from "./TableRaw";
 // import { Button } from "@/components/UI/button";
 import NewMacaronDialog from "./NewMacaronDialog";
 import { Button } from "@/components/UI/button";
+import { useFetchData } from "@/hooks/useFetchData";
+import { useChangeDialog } from "@/hooks/useChangeDialog";
 
 const MacaronsTable = () => {
-    const [macarons, setMacarons] = useState<Macaron[]>([]);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [selectedMacacon, setSelectedMacaron] = useState<Macaron | null>(null)
-    useEffect(() => {
-        const getAndSetMacarons = async () => {
-            try{
-                const macaronsList = await getMacarons();
-                console.log(macaronsList);
+  const {data : macarons, loading, error, addOne} = useFetchData<Macaron>(getMacarons);
+  const {selected : selectedMacacon, isDialogOpen, handleEdit, handleCloseDialog, handleCreateNew } = useChangeDialog<Macaron>();
 
-                setMacarons(macaronsList);
-            }
-            catch(err){
-                console.log(err)
-            }
-        }
-        getAndSetMacarons();
-    }, [])
+  console.log(macarons);
+  if (loading) return <div className="w-full p-8 flex justify-center">Loading...</div>;
 
-    const handleOpenDialog = () => {
-      setSelectedMacaron(null);
-      setIsDialogOpen(true); 
-    };
-  
-    const handleCloseDialog = () => {
-      setIsDialogOpen(false); // Закриваємо модальне вікно
-    };
-
-    const addNewMacaron = (macaron : Macaron) => {
-      setMacarons((prev) => [macaron, ...prev] )
-    }
-
-    const handleOpenChangeDialog = (macaron : Macaron) => {
-      setSelectedMacaron(macaron);
-      setIsDialogOpen(true); 
-    }
+  if (error) return <div className="w-full p-8 flex justify-center">Error...</div>;
   return (
     <Card x-chunk="dashboard-06-chunk-0">
       <CardHeader>
         <div className="w-full flex">
           <div className="w-4/6">
-          <CardTitle>Macarons</CardTitle>
-        <CardDescription>
-          Manage your macarons list.
-        </CardDescription>
-
+            <CardTitle>Macarons</CardTitle>
+            <CardDescription>Manage your macarons list.</CardDescription>
           </div>
           <div className="w-2/4 flex justify-end">
-            <Button onClick={handleOpenDialog}>Add new</Button>
+            <Button onClick={handleCreateNew}>Add new</Button>
           </div>
-
         </div>
       </CardHeader>
       <CardContent>
@@ -83,6 +52,7 @@ const MacaronsTable = () => {
               </TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Avaiable</TableHead>
               <TableHead className="hidden md:table-cell">Price</TableHead>
               <TableHead className="hidden md:table-cell">
                 Total Sales
@@ -94,15 +64,13 @@ const MacaronsTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {
-                macarons.map(macaron => (
-                    <MyTableRaw 
-                      macaron={macaron} 
-                      key={macaron.id}
-                      handleOpenChangeDialog={handleOpenChangeDialog}
-                    />
-                ))
-            }
+            {macarons.map((macaron) => (
+              <MyTableRaw
+                macaron={macaron}
+                key={macaron.id}
+                handleOpenChangeDialog={handleEdit}
+              />
+            ))}
           </TableBody>
         </Table>
       </CardContent>
@@ -111,7 +79,13 @@ const MacaronsTable = () => {
           Showing <strong>1-10</strong> of <strong>32</strong> products
         </div>
       </CardFooter>
-      {isDialogOpen && <NewMacaronDialog onClose={handleCloseDialog} addNewMacaron={addNewMacaron} selectedMacacon={selectedMacacon} />}
+      {isDialogOpen && (
+        <NewMacaronDialog
+          onClose={handleCloseDialog}
+          addNewMacaron={addOne}
+          selectedMacacon={selectedMacacon}
+        />
+      )}
     </Card>
   );
 };

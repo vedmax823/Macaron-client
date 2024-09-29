@@ -14,10 +14,10 @@ import {
 import { Input } from "@/components/UI/input";
 import { Button } from "@/components/UI/button";
 import { Textarea } from "@/components/UI/textarea";
-import ComboBox from "./UI/ComboBox";
+import ComboBox from "../../../components/MyUI/ComboBox";
 import { useIngredients } from "@/hooks/useIngredints";
 import { Checkbox } from "@/components/UI/checkbox";
-import { createMacaron } from "@/http/macarons";
+import { createMacaron, updateMacaronApi } from "@/http/macarons";
 
 
 const formSchema = z.object({
@@ -27,7 +27,8 @@ const formSchema = z.object({
   advertismentPrice: z.coerce.number().min(1),
   description: z.string(),
   ingredientsIds: z.array(z.string()),
-  isXl: z.boolean().default(true)
+  isXl: z.boolean().default(true),
+  isCurrentlyUnavailable : z.boolean().default(false),
 });
 
 export type MacaronFormValues = z.infer<typeof formSchema>;
@@ -39,7 +40,6 @@ interface MacaronFormProps {
 }
 
 const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose }) => {
-  console.log(initialData)
   const ingredients = useIngredients();
   const form = useForm<MacaronFormValues>({
     resolver: zodResolver(formSchema),
@@ -51,26 +51,34 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
       advertismentPrice: 2.5,
       pictureLink: "m1.jpg",
       isXl: true,
+      isCurrentlyUnavailable : false
     },
   });
 
+  const buttonTitle = initialData ? "Update Macaron" : "Create Macarom";
+
   const onSubmit = async (data: MacaronFormValues) => {
     try{
-      const macaron : Macaron = await createMacaron(data);
-      addNewMacaron(macaron);
-      console.log(macaron)
+      if (initialData){
+        const newMacaron = await updateMacaronApi(data, initialData.id);
+        addNewMacaron(newMacaron);
+      }
+      else{
+        const macaron : Macaron = await createMacaron(data);
+        addNewMacaron(macaron);
+        console.log(macaron)
+      }
       onClose();
     }
     catch(err){
       console.log(err);
     };
-    
   };
 
-  const addIngredient = (ingredient: string) => {
+  const addIngredient = (ingredient: Ingredient) => {
     const currentIngredients = form.getValues("ingredientsIds");
-    if (ingredient && !currentIngredients.includes(ingredient)) {
-      form.setValue("ingredientsIds", [...currentIngredients, ingredient]);
+    if (ingredient && !currentIngredients.includes(ingredient.id)) {
+      form.setValue("ingredientsIds", [...currentIngredients, ingredient.id]);
     }
   };
 
@@ -89,7 +97,7 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
           name="taste"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Taste</FormLabel>
+              <FormLabel>Macaron Taste</FormLabel>
               <FormControl>
                 <Input placeholder="Write a new Taste" {...field} />
               </FormControl>
@@ -160,15 +168,13 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
           <FormItem>
           <FormLabel>Ingredients</FormLabel>
           <FormControl>
-            <ComboBox 
+            <ComboBox<Ingredient>
               onSelect={addIngredient}
               values={ingredients}
+              displayField="name"
+              valueField="id" 
 
             />
-            {/* <Combobox
-              placeholder="Select or add an ingredient"
-              onSelect={(ingredient) => addIngredient(ingredient)}
-            /> */}
           </FormControl>
         </FormItem>)}
         />
@@ -213,8 +219,27 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="isCurrentlyUnavailable"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>
+                  Currently Unavailable
+                </FormLabel>
+              </div>
+            </FormItem>
+          )}
+        />
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit">{buttonTitle}</Button>
       </form>
     </Form>
   );

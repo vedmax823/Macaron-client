@@ -1,3 +1,4 @@
+import FormattedDate from "@/components/MyUI/FormatedDate";
 import { Badge } from "@/components/UI/badge";
 import { Button } from "@/components/UI/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/UI/dropdown-menu";
@@ -27,10 +28,13 @@ const MyTableRaw: FC<TableRawProps> = ({ macaron, handleOpenChangeDialog }) => {
         <TableCell>
           <Badge variant="outline">{macaron.isXl ? "big" : "small"}</Badge>
         </TableCell>
+        <TableCell>
+          <Badge variant="outline">{macaron.isCurrentlyUnavailable ? "no" : "yes"}</Badge>
+        </TableCell>
         <TableCell className="hidden md:table-cell">{macaron.price}</TableCell>
         <TableCell className="hidden md:table-cell">25</TableCell>
         <TableCell className="hidden md:table-cell">
-          {macaron.createdAt}
+          <FormattedDate isoDateString={macaron.createdAt}/>
         </TableCell>
         <TableCell>
           <DropdownMenu>

@@ -1,4 +1,3 @@
-import React from "react";
 
 import {
   ColumnDef,
@@ -21,6 +20,7 @@ import {
 } from "@/components/UI/table";
 import { Button } from "@/components/UI/button";
 import { Input } from "@/components/UI/input";
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,8 +33,8 @@ export function DataTable<TData, TValue>({
   data,
   handleCreateNewIngredient
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []
   )
   const table = useReactTable({

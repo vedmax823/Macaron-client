@@ -34,7 +34,6 @@ const ComboBox = <T,>({
   valueField,
 }: ComboboxProps<T>) => {
   const [open, setOpen] = React.useState(false);
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -52,7 +51,7 @@ const ComboBox = <T,>({
         <Command>
           <CommandInput placeholder="Search framework..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Nothing found</CommandEmpty>
             <CommandGroup>
               {values.map((value) => (
                 <CommandItem
@@ -60,7 +59,6 @@ const ComboBox = <T,>({
                   value={String(value[valueField])}
                   onSelect={() => {
                     onSelect(value);
-                    setOpen(false);
                   }}
                 >
                   {String(value[displayField])}

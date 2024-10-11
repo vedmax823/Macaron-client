@@ -11,8 +11,6 @@ const IngredientsComponent = () => {
   const {data : ingredients, loading, error, addOne} = useFetchData<Ingredient>(getIngredientsApi);
   const {selected : selectedIngredient, isDialogOpen, handleEdit, handleCloseDialog, handleCreateNew } = useChangeDialog<Ingredient>();
 
-  console.log(ingredients)
-
   const columns = createIngredientColumns(handleEdit);
 
   if (loading) return <div className="w-full p-8 flex justify-center">Loading...</div>;

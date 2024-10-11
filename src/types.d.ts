@@ -28,11 +28,13 @@ type Ingredient = {
     name : string,
     allergen : Allergen,
     containsGluten : boolean,
-    allergenId : string
+    allergenId : string,
+    createdAt : string,
 }
 
 type Allergen = {
     id : string,
     name : string,
-    link : string
+    link : string,
+    createdAt : string,
 }

@@ -1,5 +1,5 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import React, { FC } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/UI/dialog';
+import { FC } from 'react';
 import AllergenForm from './AllergenForm';
 
 

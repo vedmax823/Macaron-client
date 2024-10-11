@@ -4,7 +4,7 @@ import { Button } from "@/components/UI/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/UI/dropdown-menu";
 import { TableCell, TableRow } from "@/components/UI/table";
 import { MoreHorizontal } from "lucide-react";
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface TableRawProps {
   macaron: Macaron;
@@ -20,7 +20,7 @@ const MyTableRaw: FC<TableRawProps> = ({ macaron, handleOpenChangeDialog }) => {
             alt="Product image"
             className="aspect-square rounded-md object-cover"
             height="64"
-            src="http://localhost:5298/images/m1.jpg"
+            src={`${import.meta.env.VITE_API_URL}/images/${macaron.pictureLink}`}
             width="64"
           />
         </TableCell>

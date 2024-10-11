@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -21,7 +21,7 @@ import { createIngredientApi, updateIngredientApi } from "@/http/ingredients";
 const formSchema = z.object({
   name: z.string().min(1),
   containsGluten: z.boolean().default(false),
-  allergenId: z.string().nullable(),
+  allergenId: z.union([z.string().min(1).nullable(), z.literal("")]).optional(),
 });
 
 export type IngredientFormValues = z.infer<typeof formSchema>;
@@ -33,6 +33,8 @@ interface IngredientFormProps {
 }
 
 const IngredientForm: FC<IngredientFormProps> = ({ initialData, onClose, addIngredient }) => {
+
+  console.log(initialData);
   const {
     data: allergens,
     loading,

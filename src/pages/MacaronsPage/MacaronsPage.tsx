@@ -1,4 +1,3 @@
-import React from 'react';
 import MacaronsTable from './Components/MacaronsTable';
 
 const MacaronsPage = () => {

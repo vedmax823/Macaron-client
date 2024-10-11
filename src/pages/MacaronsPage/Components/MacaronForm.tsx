@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -82,7 +82,6 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
     }
   };
 
-  // Видалення інгредієнта
   const removeIngredient = (ingredient: string) => {
     const updatedIngredients = form
       .getValues("ingredientsIds")

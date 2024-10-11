@@ -1,3 +1,4 @@
+import FormattedDate from "@/components/MyUI/FormatedDate";
 import { Button } from "@/components/UI/button";
 import {
   DropdownMenu,
@@ -29,7 +30,32 @@ export const createAllergenColumns = (
   {
     accessorKey: "link",
     header: "Picture",
-    cell: ({ row }) => <div>{row.getValue("link")}</div>,
+    cell: ({ row }) => {
+      const link = row.getValue("link");
+      return link ? <img
+          alt="Allergen image"
+          className="aspect-square rounded-md object-cover"
+          height="30"
+          src={`${import.meta.env.VITE_API_URL}/images/${link}`}
+          width="30"
+        /> : "";
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created at",
+    cell: ({ row }) => {
+      // const allergen: Allergen | null = ;
+      return <FormattedDate isoDateString={row.getValue("createdAt")} />;
+    },
+  },
+  {
+    accessorKey: "updatedAt",
+    header: "Updated at",
+    cell: ({ row }) => {
+      // const allergen: Allergen | null = ;
+      return <FormattedDate isoDateString={row.getValue("updatedAt")} />;
+    },
   },
   {
     id: "actions",

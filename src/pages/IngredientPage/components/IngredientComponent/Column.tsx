@@ -1,3 +1,4 @@
+import FormattedDate from "@/components/MyUI/FormatedDate";
 import { Button } from "@/components/UI/button";
 import {
   DropdownMenu,
@@ -37,6 +38,22 @@ export const createIngredientColumns = (
   {
     accessorKey: "containsGluten",
     header: "Contains Gluten",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created at",
+    cell: ({ row }) => {
+      // const allergen: Allergen | null = ;
+      return <FormattedDate isoDateString={row.getValue("createdAt")}/>
+    },
+  },
+  {
+    accessorKey: "updatedAt",
+    header: "Updated at",
+    cell: ({ row }) => {
+      // const allergen: Allergen | null = ;
+      return <FormattedDate isoDateString={row.getValue("updatedAt")}/>
+    },
   },
   {
     id: "actions",

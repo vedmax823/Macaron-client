@@ -1,5 +1,4 @@
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader } from "@/components/ui/dialog";
-import React from "react";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader } from "@/components/UI/dialog";
 // import { Button } from "@/components/UI/button"; // Додаємо кнопку, якщо необхідно
 // import { Label } from "@/components/UI/label";
 // import { Input } from "@/components/UI/input";

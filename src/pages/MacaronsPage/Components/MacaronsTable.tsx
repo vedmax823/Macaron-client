@@ -26,7 +26,6 @@ const MacaronsTable = () => {
   const {data : macarons, loading, error, addOne} = useFetchData<Macaron>(getMacarons);
   const {selected : selectedMacacon, isDialogOpen, handleEdit, handleCloseDialog, handleCreateNew } = useChangeDialog<Macaron>();
 
-  console.log(macarons);
   if (loading) return <div className="w-full p-8 flex justify-center">Loading...</div>;
 
   if (error) return <div className="w-full p-8 flex justify-center">Error...</div>;

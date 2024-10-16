@@ -18,7 +18,7 @@ const NewMacaronDialog: React.FC<NewMacaronDialogProps> = ({ onClose, addNewMaca
   const description = selectedMacacon ? "Update a new Taste of you macaron." : "Create a new Taste of you macaron.";
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="max-h-[80vh] min-w-[800px] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>

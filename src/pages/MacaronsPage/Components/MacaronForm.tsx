@@ -18,7 +18,7 @@ import ComboBox from "../../../components/MyUI/ComboBox";
 import { useIngredients } from "@/hooks/useIngredints";
 import { Checkbox } from "@/components/UI/checkbox";
 import { createMacaron, updateMacaronApi } from "@/http/macarons";
-
+import UploadPicture from "./UploadPicture";
 
 const formSchema = z.object({
   taste: z.string().min(5),
@@ -28,18 +28,22 @@ const formSchema = z.object({
   description: z.string(),
   ingredientsIds: z.array(z.string()),
   isXl: z.boolean().default(true),
-  isCurrentlyUnavailable : z.boolean().default(false),
+  isCurrentlyUnavailable: z.boolean().default(false),
 });
 
 export type MacaronFormValues = z.infer<typeof formSchema>;
 
 interface MacaronFormProps {
   initialData: Macaron | null;
-  addNewMacaron : (macaron : Macaron) => void;
-  onClose : () => void;
+  addNewMacaron: (macaron: Macaron) => void;
+  onClose: () => void;
 }
 
-const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose }) => {
+const MacaronForm: FC<MacaronFormProps> = ({
+  initialData,
+  addNewMacaron,
+  onClose,
+}) => {
   const ingredients = useIngredients();
   const form = useForm<MacaronFormValues>({
     resolver: zodResolver(formSchema),
@@ -49,30 +53,28 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
       ingredientsIds: [],
       price: 2.5,
       advertismentPrice: 2.5,
-      pictureLink: "m1.jpg",
+      pictureLink: "",
       isXl: true,
-      isCurrentlyUnavailable : false
+      isCurrentlyUnavailable: false,
     },
   });
 
   const buttonTitle = initialData ? "Update Macaron" : "Create Macarom";
 
   const onSubmit = async (data: MacaronFormValues) => {
-    try{
-      if (initialData){
+    try {
+      if (initialData) {
         const newMacaron = await updateMacaronApi(data, initialData.id);
         addNewMacaron(newMacaron);
-      }
-      else{
-        const macaron : Macaron = await createMacaron(data);
+      } else {
+        const macaron: Macaron = await createMacaron(data);
         addNewMacaron(macaron);
-        console.log(macaron)
+        console.log(macaron);
       }
       onClose();
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
-    };
+    }
   };
 
   const addIngredient = (ingredient: Ingredient) => {
@@ -80,6 +82,10 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
     if (ingredient && !currentIngredients.includes(ingredient.id)) {
       form.setValue("ingredientsIds", [...currentIngredients, ingredient.id]);
     }
+  };
+
+  const setPictureLink = (link: string) => {
+    form.setValue("pictureLink", link);
   };
 
   const removeIngredient = (ingredient: string) => {
@@ -107,16 +113,21 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
         <FormField
           control={form.control}
           name="pictureLink"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Picture Link</FormLabel>
               <FormControl>
-                <Input placeholder="picture link" {...field} />
+                {/* <Input placeholder="picture link" {...field} /> */}
+                <UploadPicture
+                  pictureLink={form.getValues("pictureLink")}
+                  setPictureLink={setPictureLink}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="description"
@@ -164,27 +175,29 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
           control={form.control}
           name="ingredientsIds"
           render={() => (
-          <FormItem>
-          <FormLabel>Ingredients</FormLabel>
-          <FormControl>
-            <ComboBox<Ingredient>
-              onSelect={addIngredient}
-              values={ingredients}
-              displayField="name"
-              valueField="id" 
-
-            />
-          </FormControl>
-        </FormItem>)}
+            <FormItem>
+              <FormLabel>Ingredients</FormLabel>
+              <FormControl>
+                <ComboBox<Ingredient>
+                  onSelect={addIngredient}
+                  values={ingredients}
+                  displayField="name"
+                  valueField="id"
+                />
+              </FormControl>
+            </FormItem>
+          )}
         />
-        
+
         <FormItem>
           <div className="mt-2">
             {form.watch("ingredientsIds").length > 0 && (
               <div className="flex ">
                 {form.watch("ingredientsIds").map((ingredient, index) => (
                   <div key={index} className="flex items-center ">
-                    <span>{ingredients.find(i => i.id === ingredient)?.name}</span>
+                    <span>
+                      {ingredients.find((i) => i.id === ingredient)?.name}
+                    </span>
                     <Button
                       type="button"
                       variant="ghost"
@@ -211,9 +224,7 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>
-                  Is XL
-                </FormLabel>
+                <FormLabel>Is XL</FormLabel>
               </div>
             </FormItem>
           )}
@@ -230,9 +241,7 @@ const MacaronForm: FC<MacaronFormProps> = ({ initialData, addNewMacaron, onClose
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>
-                  Currently Unavailable
-                </FormLabel>
+                <FormLabel>Currently Unavailable</FormLabel>
               </div>
             </FormItem>
           )}

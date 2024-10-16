@@ -20,7 +20,7 @@ const MyTableRaw: FC<TableRawProps> = ({ macaron, handleOpenChangeDialog }) => {
             alt="Product image"
             className="aspect-square rounded-md object-cover"
             height="64"
-            src={`${import.meta.env.VITE_API_URL}/images/${macaron.pictureLink}`}
+            src={`${macaron.pictureLink}`}
             width="64"
           />
         </TableCell>

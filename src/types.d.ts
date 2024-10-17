@@ -38,3 +38,9 @@ type Allergen = {
     link : string,
     createdAt : string,
 }
+
+
+type SasType =
+{
+    sasUrl : string
+}

@@ -36,7 +36,7 @@ export const createAllergenColumns = (
           alt="Allergen image"
           className="aspect-square rounded-md object-cover"
           height="30"
-          src={`${import.meta.env.VITE_API_URL}/images/${link}`}
+          src={row.getValue("link")}
           width="30"
         /> : "";
     },

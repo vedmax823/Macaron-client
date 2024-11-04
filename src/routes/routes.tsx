@@ -3,11 +3,12 @@ import LoginPage from "../pages/LoginPage";
 import MainWrapper from "../components/MainWrapper";
 import MainPage from "../pages/MainPage";
 import PrivateRoutes from "../components/PrivateRoutes";
-import { ALLERGENS_ROUTE, INGREDIENTS_ROUTE, MACARONS_ROUTE, MAIN_ROUTE } from "./routesConsts";
+import { ALLERGENS_ROUTE, INGREDIENTS_ROUTE, MACARONS_ROUTE, MACARONSBOX_ROUTE, MAIN_ROUTE } from "./routesConsts";
 
 import AllergenPage from "@/pages/AllergenPage";
 import IngredientsPage from "@/pages/IngredientPage/IngredientsPage";
 import MacaronsPage from "@/pages/MacaronsPage/MacaronsPage";
+import MacaronsBoxPage from "@/pages/MacaronsBoxPage/MacaronsBoxPage";
 
 const privateRoutes: RouteObject[] = [
     {
@@ -29,6 +30,10 @@ const privateRoutes: RouteObject[] = [
         {
             path : INGREDIENTS_ROUTE,
             element : <IngredientsPage />
+        },
+        {
+          path : MACARONSBOX_ROUTE,
+          element : <MacaronsBoxPage />
         },
         {
           path: "*",

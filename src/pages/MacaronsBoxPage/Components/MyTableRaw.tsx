@@ -7,11 +7,11 @@ import { MoreHorizontal } from "lucide-react";
 import { FC } from "react";
 
 interface TableRawProps {
-  macaron: Macaron;
-  handleOpenChangeDialog : (macaron : Macaron) => void;
+  macaronsBox: MacaronBox;
+  handleOpenChangeDialog : (macaron : MacaronBox) => void;
 }
 
-const MyTableRaw: FC<TableRawProps> = ({ macaron, handleOpenChangeDialog }) => {
+const MyTableRaw: FC<TableRawProps> = ({ macaronsBox, handleOpenChangeDialog }) => {
   return (
     
       <TableRow>
@@ -20,21 +20,21 @@ const MyTableRaw: FC<TableRawProps> = ({ macaron, handleOpenChangeDialog }) => {
             alt="Product image"
             className="aspect-square rounded-md object-cover"
             height="64"
-            src={`${macaron.pictureLink}`}
+            src={`${macaronsBox.pictureLink}`}
             width="64"
           />
         </TableCell>
-        <TableCell className="font-medium">{macaron.taste}</TableCell>
+        <TableCell className="font-medium">{macaronsBox.name}</TableCell>
         <TableCell>
-          <Badge variant="outline">{macaron.isXl ? "big" : "small"}</Badge>
+          <Badge variant="outline">{macaronsBox.isXl ? "big" : "small"}</Badge>
         </TableCell>
         <TableCell>
-          <Badge variant="outline">{macaron.isCurrentlyAvailable ? "no" : "yes"}</Badge>
+          <Badge variant="outline">{macaronsBox.isCurrentlyAvailable ? "no" : "yes"}</Badge>
         </TableCell>
-        <TableCell className="hidden md:table-cell">{macaron.price}</TableCell>
+        <TableCell className="hidden md:table-cell">{macaronsBox.price}</TableCell>
         <TableCell className="hidden md:table-cell">25</TableCell>
         <TableCell className="hidden md:table-cell">
-          <FormattedDate isoDateString={macaron.createdAt}/>
+          <FormattedDate isoDateString={macaronsBox.createdAt}/>
         </TableCell>
         <TableCell>
           <DropdownMenu>
@@ -46,7 +46,7 @@ const MyTableRaw: FC<TableRawProps> = ({ macaron, handleOpenChangeDialog }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => handleOpenChangeDialog(macaron)}>Edit</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleOpenChangeDialog(macaronsBox)}>Edit</DropdownMenuItem>
               <DropdownMenuItem>Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

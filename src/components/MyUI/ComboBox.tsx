@@ -19,21 +19,34 @@ import {
   PopoverTrigger,
 } from "@/components/UI/popover";
 
+type WithIdAndNameOrTaste = {
+  id: string | number;
+} & ({ name: string; taste?: never } | { taste: string; name?: never });
 
-interface ComboboxProps<T> {
+interface ComboboxProps<T extends WithIdAndNameOrTaste> {
   onSelect: (value: T) => void;
   values: T[];
   displayField: keyof T;
   valueField: keyof T;
+  placeholderText: string;
+  oneSelect: boolean;
+  selectedValue: string | string[] | null;
 }
 
-const ComboBox = <T,>({
+const ComboBox = <T extends WithIdAndNameOrTaste>({
   onSelect,
   values,
   displayField,
   valueField,
+  placeholderText,
+  oneSelect,
+  selectedValue,
 }: ComboboxProps<T>) => {
   const [open, setOpen] = React.useState(false);
+  const selectedItem =
+    selectedValue && oneSelect
+      ? values.find((v) => v.id === selectedValue)
+      : null;
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -43,13 +56,15 @@ const ComboBox = <T,>({
           aria-expanded={open}
           className="w-full"
         >
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" /> Select
-          ingredients
+          {selectedItem
+            ? selectedItem.name ?? selectedItem.taste // Виводимо `name`, якщо він є, або `taste`
+            : "Select ..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" /> 
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder={placeholderText} />
           <CommandList>
             <CommandEmpty>Nothing found</CommandEmpty>
             <CommandGroup>
@@ -59,6 +74,7 @@ const ComboBox = <T,>({
                   value={String(value[valueField])}
                   onSelect={() => {
                     onSelect(value);
+                    if (oneSelect) setOpen(false);
                   }}
                 >
                   {String(value[displayField])}

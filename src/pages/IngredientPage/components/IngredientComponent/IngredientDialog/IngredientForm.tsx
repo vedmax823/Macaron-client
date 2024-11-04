@@ -115,7 +115,10 @@ const IngredientForm: FC<IngredientFormProps> = ({ initialData, onClose, addIngr
                     onSelect={addAllergen} 
                     values={allergens}
                     displayField="name"
-                    valueField="id" 
+                    valueField="id"
+                    placeholderText="Allergen search..." 
+                    oneSelect={true}
+                    selectedValue={form.watch("allergenId") ?? null}
                 />
               </FormControl>
             </FormItem>

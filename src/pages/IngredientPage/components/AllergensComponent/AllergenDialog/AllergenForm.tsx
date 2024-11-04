@@ -13,6 +13,7 @@ import * as z from "zod";
 import { Input } from "@/components/UI/input";
 import { Button } from "@/components/UI/button";
 import { createAllergenApi, updateAllergenApi } from "@/http/allergens";
+import UploadPicture from "@/pages/MacaronsPage/Components/UploadPicture";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -59,6 +60,11 @@ const AllergenForm: FC<AllergenFormProps> = ({ initialData, onClose, addAllergen
     };
   };
 
+
+  const setPictureLink = (link: string) => {
+    form.setValue("link", link);
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -79,11 +85,16 @@ const AllergenForm: FC<AllergenFormProps> = ({ initialData, onClose, addAllergen
         <FormField
           control={form.control}
           name="link"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
-              <FormLabel>Allergen Name</FormLabel>
+              <FormLabel>Picture Link</FormLabel>
               <FormControl>
-                <Input placeholder="Picture link" {...field} />
+                {/* <Input placeholder="picture link" {...field} /> */}
+                <UploadPicture
+                  pictureLink={form.getValues("link")}
+                  setPictureLink={setPictureLink}
+                  container="allergens"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

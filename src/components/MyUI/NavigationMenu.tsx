@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Command,  CommandGroup, CommandItem, CommandList, CommandSeparator } from "../UI/command";
-import { INGREDIENTS_ROUTE, MACARONS_ROUTE } from "@/routes/routesConsts";
+import { INGREDIENTS_ROUTE, MACARONS_ROUTE, MACARONSBOX_ROUTE } from "@/routes/routesConsts";
 
 const SideMenu = () => {
 
@@ -14,6 +14,7 @@ const SideMenu = () => {
                 >
                     <CommandItem><Link to={INGREDIENTS_ROUTE}>Ingredients</Link></CommandItem>
                     <CommandItem><Link to={MACARONS_ROUTE}>Macarons</Link></CommandItem>
+                    <CommandItem><Link to={MACARONSBOX_ROUTE}>Macarons Sets</Link></CommandItem>
                     <CommandItem>Users</CommandItem>
                 </CommandGroup>
                 <CommandSeparator />

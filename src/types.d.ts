@@ -20,7 +20,7 @@ type Macaron = {
     ingredientsIds : string[],
     pictureLink : string,
     updatedAt : string,
-    isCurrentlyUnavailable : boolean
+    isCurrentlyAvailable : boolean
 }
 
 type Ingredient = {
@@ -43,4 +43,24 @@ type Allergen = {
 type SasType =
 {
     sasUrl : string
+}
+
+
+type MacaronBox = {
+    id : string,
+    name : string,
+    description : string,
+    price : number, 
+    advertismentPrice : number,
+    isXl : boolean,
+    createdAt : string,
+    pictureLink : string,
+    updatedAt : string,
+    isCurrentlyAvailable : boolean,
+    smallMacaronsSets : SmallMacaronSet[]
+}
+
+type SmallMacaronSet = {
+    count : number,
+    macaronId : string
 }

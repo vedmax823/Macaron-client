@@ -28,7 +28,7 @@ const formSchema = z.object({
   description: z.string(),
   ingredientsIds: z.array(z.string()),
   isXl: z.boolean().default(true),
-  isCurrentlyUnavailable: z.boolean().default(false),
+  isCurrentlyAvailable: z.boolean().default(false),
 });
 
 export type MacaronFormValues = z.infer<typeof formSchema>;
@@ -55,7 +55,7 @@ const MacaronForm: FC<MacaronFormProps> = ({
       advertismentPrice: 2.5,
       pictureLink: "",
       isXl: true,
-      isCurrentlyUnavailable: false,
+      isCurrentlyAvailable: true,
     },
   });
 
@@ -121,6 +121,7 @@ const MacaronForm: FC<MacaronFormProps> = ({
                 <UploadPicture
                   pictureLink={form.getValues("pictureLink")}
                   setPictureLink={setPictureLink}
+                  container="macarons"
                 />
               </FormControl>
               <FormMessage />
@@ -183,6 +184,9 @@ const MacaronForm: FC<MacaronFormProps> = ({
                   values={ingredients}
                   displayField="name"
                   valueField="id"
+                  placeholderText="Ingredient search..."
+                  oneSelect={false}
+                  selectedValue={form.watch("ingredientsIds")}
                 />
               </FormControl>
             </FormItem>
@@ -231,7 +235,7 @@ const MacaronForm: FC<MacaronFormProps> = ({
         />
         <FormField
           control={form.control}
-          name="isCurrentlyUnavailable"
+          name="isCurrentlyAvailable"
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
               <FormControl>
@@ -241,7 +245,7 @@ const MacaronForm: FC<MacaronFormProps> = ({
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>Currently Unavailable</FormLabel>
+                <FormLabel>Currently available</FormLabel>
               </div>
             </FormItem>
           )}

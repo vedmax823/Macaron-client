@@ -7,11 +7,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSas } from '@/hooks/useSas';
 
 interface UploadPictureProps {
+    container : string;
     pictureLink: string;
     setPictureLink: (link: string) => void;
 }
 
-const UploadPicture: FC<UploadPictureProps> = ({ pictureLink, setPictureLink }) => {
+const UploadPicture: FC<UploadPictureProps> = ({ pictureLink, setPictureLink, container }) => {
     const [file, setFile] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string>(pictureLink);
     const [uploading, setUploading] = useState(false);
@@ -27,7 +28,7 @@ const UploadPicture: FC<UploadPictureProps> = ({ pictureLink, setPictureLink }) 
         console.log(sasUrl)
 
         const blobServiceClient = new BlobServiceClient(sasUrl);
-        const containerClient = blobServiceClient.getContainerClient('donmacaronpictures');
+        const containerClient = blobServiceClient.getContainerClient(container);
 
         try {
             setUploading(true);

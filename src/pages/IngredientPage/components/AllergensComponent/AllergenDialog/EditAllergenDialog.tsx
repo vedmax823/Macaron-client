@@ -13,7 +13,7 @@ const EditAllergenDialog:FC<AllergenDialogProps> = ({selectedAllergen, onClose, 
     const title = selectedAllergen ? "Update allergen" : "Create allergen";
     return (
       <Dialog open={true} onOpenChange={onClose}>
-        <DialogContent>
+        <DialogContent className="max-h-[80vh] min-w-[800px] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
